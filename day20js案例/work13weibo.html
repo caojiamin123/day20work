@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>work13weibo</title>
+	</head>
+	<body>
+		<textarea name="" rows="15" cols="70" id="txt"></textarea>
+	</body>
+	<script type="text/javascript">
+		function setCookie(name,value,iDay){
+			if(iDay){
+				var oDate=new Date();
+				oDate.setDate(oDate.getDate()+iDay);
+				document.cookie=name+"="+value+";path=/;expires="+oDate;
+			}else{
+				document.cookie=name+"="+value+";path=/";
+			} 
+		}
+		
+		function getCookie(name){
+			var arr=document.cookie.split(";");
+			for(var i=0;i<arr.length;i++){
+				var tmp=arr[i].split("=");
+				if(name==tmp[0]){
+					return tmp[1];
+				}
+			}	  
+			return "";
+		}
+		
+		window.onload=function(){
+			var otxt=document.getElementById("txt");
+			
+			var str=getCookie('value');
+			otxt.value=str;
+			
+			otxt.onblur=function(){
+				setCookie('value',otxt.value,3);
+			}
+		}
+	</script>
+</html>

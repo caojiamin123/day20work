@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>work11cookieTab1</title>
+		<style type="text/css">
+			#box{
+				width: 400px;
+				height: 300px;
+				border: 1px solid #000;
+				margin: 100px auto;
+			}
+			#box a{
+				display: block;
+				float: left;
+				width: 100px;
+				height: 40px;
+				text-align: center;
+				line-height: 40px;
+				background: #ccc;
+				color: #333;
+				text-decoration: none;
+			}
+			#box a.active{
+				background: #c00;
+				color: #fff;
+			}
+			#box div{
+				width: 400px;
+				height: 260px;
+				text-align: center;
+				line-height: 260px;
+				font-size: 50px;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<a href="javascript:;" class="active">体育</a>
+			<a href="javascript:;">音乐</a>
+			<a href="javascript:;">视频</a>
+			<a href="javascript:;">电影</a>
+			<div style="display: block;">体育</div>
+			<div>音乐</div>
+			<div>视频</div>
+			<div>电影</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+		function setCookie(name,value,iDay){
+			if(iDay){
+				var oDate=new Date();
+				oDate.setDate(oDate.getDate()+iDay);
+				document.cookie=name+"="+value+";path=/;expires="+oDate;
+			}else{
+				document.cookie=name+"="+value+";path=/";
+			} 
+		}
+		
+		function getCookie(name){
+			var arr=document.cookie.split(";");
+			for(var i=0;i<arr.length;i++){
+				var tmp=arr[i].split("=");
+				if(name==tmp[0]){
+					return tmp[1];
+				}
+			}
+			  
+			return "";
+		}
+			
+		window.onload=function(){
+			var obox=document.getElementById("box");
+			var abtn=obox.getElementsByTagName("a");
+			var adiv=obox.getElementsByTagName("div");
+			var index=0;
+			
+			var index=getCookie("tabIndex");
+			if(index){
+				tab();
+			}
+			
+			function tab(){
+				for(var i=0;i<abtn.length;i++){
+					abtn[i].className="";
+					adiv[i].style.display="none";
+				}
+				abtn[index].className="active";
+				adiv[index].style.display="block";
+			}	
+			for(var i=0;i<abtn.length;i++){
+				abtn[i].index=i;
+				abtn[i].onclick=function(){
+					index=this.index;
+					tab();
+					setCookie("tabIndex",this.index,10);
+				}
+			}	
+		}
+	</script>
+</html>

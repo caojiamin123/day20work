@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>work12drag</title>
+		<style type="text/css">
+			#div{
+				width:100px;
+				height:100px;
+				background:red;
+				position:absolute;
+				left:0;
+				top:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="div"></div>
+	</body>
+	<script type="text/javascript">
+		function setCookie(name,value,iDay){
+			if(iDay){
+				var oDate=new Date();
+				oDate.setDate(oDate.getDate()+iDay);
+				document.cookie=name+"="+value+";path=/;expires="+oDate;
+			}else{
+				document.cookie=name+"="+value+";path=/";
+			} 
+		}
+		
+		function getCookie(name){
+			var arr=document.cookie.split(";");
+			for(var i=0;i<arr.length;i++){
+				var tmp=arr[i].split("=");
+				if(name==tmp[0]){
+					return tmp[1];
+				}
+			}	  
+			return "";
+		}
+		
+		window.onload=function(){
+			var odiv=document.getElementById("div");
+			
+			var l=getCookie("left");
+			var t=getCookie("top");
+			odiv.style.left=l+"px";
+			odiv.style.top=t+"px";
+			
+			odiv.onmousedown=function(ev){
+				var oevent=ev||event;
+				var disx=oevent.clientX-odiv.offsetLeft;
+				var disy=oevent.clientY-odiv.offsetTop;
+				
+				document.onmousemove=function(ev){
+					var oevent=ev||event;
+					var l=oevent.clientX-disx;
+					var t=oevent.clientY-disy;
+					odiv.style.left=l+"px";
+					odiv.style.top=t+"px";	
+				}
+				
+				document.onmouseup=function(){
+					document.onmousemove=null;
+					document.onmouseup=null;
+					setCookie("left",odiv.offsetLeft,3);
+					setCookie("top",odiv.offsetTop,3);
+					odiv.releaseCapture &&odiv.releaseCapture();
+				}
+				odiv.releaseCapture &&odiv.releaseCapture();
+				return false;
+			}
+		}
+	</script>
+</html>
